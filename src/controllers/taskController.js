@@ -7,7 +7,10 @@ export const TASK_CHANGED = "TASK_CHANGED";
 
 export const TaskController = {
   getTasks: async (args) => {
-    const { ownerId, dueDate, priority } = args;
+    const { ownerId, project_id, dueDate, priority } = args;
+    if(project_id){
+      return await TaskModel.getByProject(project.id);
+    }
     if (dueDate) {
       const validDate = new Date(dueDate);
       if (!validDate) {
@@ -16,7 +19,7 @@ export const TaskController = {
       return await TaskModel.getByDueDate(ownerId, validDate);
     }
     if (priority) {
-      return await TaskModel.getByDueDate(ownerId, priority);
+      return await TaskModel.getByPriority(ownerId, priority);
     }
     return []
   },

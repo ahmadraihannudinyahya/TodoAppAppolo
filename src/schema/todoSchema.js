@@ -32,6 +32,7 @@ export const typeDefs = gql(`
     projects: [Project!]!
     project(id: ID!): Project
     tasks(
+      project_id: ID
       dueDate: String
       priority: Priority
     ): [Task!]!
