@@ -9,7 +9,7 @@ export const PROJECT_CHANGED = "PROJECT_CHANGED";
 export const ProjectController = {
   getProjects: async (ownerId) => await ProjectModel.getAll(ownerId),
   getProject: async (ownerId, id) => {
-    await ProjectModel.getById(ownerId, id)
+    return await ProjectModel.getById(ownerId, id)
   }, 
   createProject: async (ownerId, args) => {
     const { id, description, name } = args
