@@ -14,7 +14,7 @@ import { useServer } from 'graphql-ws/use/ws'
 
 
 import { resolvers, typeDefs } from "./schema/todoSchema.js";
-import { ClientError } from "./utils/errors.js";
+import { AuthorizationError, BadRequestError, ClientError } from "./utils/errors.js";
 import { validateToken } from "./utils/auth.js";
 import { GraphQLError } from "graphql";
 
@@ -50,13 +50,13 @@ const server = new ApolloServer({
     schema,
     formatError: (formattedError, error) => {
         if (error.originalError instanceof GraphQLError) {
-            if(formattedError.extensions && formattedError.extensions.code == 'BAD_USER_INPUT')
-            return {
-                message: formattedError.message,
-                code: 'BAD_USER_INPUT',
-            };
+            if (formattedError.extensions && formattedError.extensions.code == 'BAD_USER_INPUT')
+                return {
+                    message: formattedError.message,
+                    code: 'BAD_USER_INPUT',
+                };
         }
-        if (error.originalError instanceof ClientError) {
+        if (error.originalError instanceof BadRequestError) {
             const clientError = error.originalError;
             return {
                 message: clientError.message,
@@ -64,8 +64,18 @@ const server = new ApolloServer({
             };
         }
 
+        if (error.originalError instanceof AuthorizationError) {
+            const clientError = error.originalError;
+            return {
+                message: clientError.message,
+                code: clientError.extensions?.code || 401,
+            };
+        }
+
+
+
         console.log(error);
-        
+
         return {
             message: 'Internal server error',
             code: 500,
