@@ -63,13 +63,13 @@ const server = new ApolloServer({
                 code: clientError.extensions?.code || 400,
             };
         }
+
+        console.log(error);
+        
         return {
             message: 'Internal server error',
             code: 500,
         };
-
-
-
     },
     plugins: [
         process.env.NODE_ENV === 'development' ?
