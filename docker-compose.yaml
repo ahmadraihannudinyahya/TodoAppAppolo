@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:14-alpine3.15
+    container_name: todo_postgres
+    restart: unless-stopped
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_DB: todo
+      POSTGRES_USER: myapp_user
+      POSTGRES_PASSWORD: myapp_pass
+    volumes:
+      - postgres_todo_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: todo_redis
+    restart: unless-stopped
+    ports:
+      - "6378:6379"
+    volumes:
+      - redis_todo_data:/data
+
+volumes:
+  postgres_todo_data:
+  redis_todo_data:
