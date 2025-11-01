@@ -75,11 +75,11 @@ export const ProjectController = {
     return project;
   },
   deleteProject: async (ownerId, args) => {
-    const { id } = args
+    const { id } = args    
     if (!id)
       throw new BadRequestError('id required')
-    const existing = await ProjectModel.getById(id)
-    if (!existing || existing.owner_id !== ownerId)
+    const existing = await ProjectModel.getById(ownerId, id)
+    if (!existing)
       throw new BadRequestError('Unauthorized User')
     await ProjectModel.delete(id)
     pubsub.publish(PROJECT_CHANGED, {
