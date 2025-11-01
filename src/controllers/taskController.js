@@ -9,7 +9,7 @@ export const TaskController = {
   getTasks: async (args) => {
     const { ownerId, project_id, dueDate, priority } = args;
     if(project_id){
-      return await TaskModel.getByProject(project.id);
+      return await TaskModel.getByProject(project_id);
     }
     if (dueDate) {
       const validDate = new Date(dueDate);
