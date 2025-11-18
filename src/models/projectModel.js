@@ -7,7 +7,11 @@ export const ProjectModel = {
         projects.id, 
         projects.name, 
         projects.description, 
-        projects.owner_id
+        projects.owner_id, 
+        TO_CHAR(
+          projects.updated_at AT TIME ZONE 'Asia/Jakarta', 
+          'YYYY-MM-DD HH24:MI:SS TZH:TZM'
+        ) AS updated_at
       FROM projects WHERE projects.owner_id=$1
     `, [ownerId]);
     return res.rows;
@@ -19,7 +23,11 @@ export const ProjectModel = {
         projects.id, 
         projects.name, 
         projects.description, 
-        projects.owner_id
+        projects.owner_id, 
+        TO_CHAR(
+          projects.updated_at AT TIME ZONE 'Asia/Jakarta', 
+          'YYYY-MM-DD HH24:MI:SS TZH:TZM'
+        ) AS updated_at
       FROM projects WHERE id=$1 AND owner_id=$2
     `, [id, ownerId]);
     return res.rows[0] || null;

@@ -10,7 +10,11 @@ export const TaskModel = {
         TO_CHAR(tasks.due, 'DD/MM/YYYY HH24:MI') due, 
         tasks.description, 
         tasks.priority, 
-        tasks.finished
+        tasks.finished, 
+        TO_CHAR(
+          tasks.updated_at AT TIME ZONE 'Asia/Jakarta', 
+          'YYYY-MM-DD HH24:MI:SS TZH:TZM'
+        ) AS updated_at
       FROM tasks 
       JOIN projects 
       ON tasks.project_id = projects.id
@@ -28,7 +32,11 @@ export const TaskModel = {
         TO_CHAR(tasks.due, 'DD/MM/YYYY HH24:MI') due, 
         tasks.description, 
         tasks.priority, 
-        tasks.finished
+        tasks.finished, 
+        TO_CHAR(
+          tasks.updated_at AT TIME ZONE 'Asia/Jakarta', 
+          'YYYY-MM-DD HH24:MI:SS TZH:TZM'
+        ) AS updated_at
       FROM tasks 
       JOIN projects 
       ON tasks.project_id = projects.id
@@ -46,7 +54,11 @@ export const TaskModel = {
         TO_CHAR(tasks.due, 'DD/MM/YYYY HH24:MI') due, 
         tasks.description, 
         tasks.priority, 
-        tasks.finished
+        tasks.finished, 
+        TO_CHAR(
+          tasks.updated_at AT TIME ZONE 'Asia/Jakarta', 
+          'YYYY-MM-DD HH24:MI:SS TZH:TZM'
+        ) AS updated_at
       FROM tasks 
       JOIN projects 
       ON tasks.project_id = projects.id
@@ -56,7 +68,19 @@ export const TaskModel = {
   },
 
   async getById(id) {
-    const res = await query('SELECT * FROM tasks WHERE id=$1', [id]);
+    const res = await query(`SELECT 
+      tasks.id, 
+        tasks.project_id, 
+        tasks.name, 
+        TO_CHAR(tasks.due, 'DD/MM/YYYY HH24:MI') due, 
+        tasks.description, 
+        tasks.priority, 
+        tasks.finished, 
+        TO_CHAR(
+          tasks.updated_at AT TIME ZONE 'Asia/Jakarta', 
+          'YYYY-MM-DD HH24:MI:SS TZH:TZM'
+        ) AS updated_at
+      FROM tasks WHERE id=$1`, [id]);
     return res.rows[0] || null;
   },
 

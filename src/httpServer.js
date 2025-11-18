@@ -50,10 +50,10 @@ const server = new ApolloServer({
     schema,
     formatError: (formattedError, error) => {
         if (error.originalError instanceof GraphQLError) {
-            if (formattedError.extensions && formattedError.extensions.code == 'BAD_USER_INPUT')
+            if (formattedError.extensions)
                 return {
                     message: formattedError.message,
-                    code: 'BAD_USER_INPUT',
+                    code: formattedError.extensions.code,
                 };
         }
         if (error.originalError instanceof BadRequestError) {
@@ -123,5 +123,5 @@ app.use(
 );
 
 await new Promise((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve),
+    httpServer.listen({ port: 3000 }, resolve),
 );

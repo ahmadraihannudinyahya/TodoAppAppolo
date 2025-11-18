@@ -15,6 +15,7 @@ export const typeDefs = gql(`
     id: ID!
     name: String!
     description: String!
+    updated_at: String!
     tasks: [Task!]!
   }
 
@@ -26,6 +27,7 @@ export const typeDefs = gql(`
     description: String
     priority: Priority!
     finished: Boolean!
+    updated_at: String!
   }
 
   type Query {
